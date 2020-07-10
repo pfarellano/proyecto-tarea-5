@@ -1,0 +1,1 @@
+web: gunicorn proyectotarea5.wsgi --log-file -

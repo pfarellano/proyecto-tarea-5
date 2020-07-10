@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="shortcut icon" href="">
+</head>
+<body>
+
+<h1>Pagina de inicio</h1>
+
+
+<form id="searchform" action="{% url 'busqueda' %}" accept-charset="utf-8">
+      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Buscar">
+    <button class="searchbutton" type="submit" t><i class="fa fa-search" ></i>Ir</button>
+    </form>
+
+<h2>Lista de episodios:</h2>
+
+
+
+<ul>
+{% for id,nombre,fecha,codigo in lista_tuplas %}
+    <p> Nombre: <a href={% url 'episodio' id=id %}> {{ nombre }}</a></p>
+    <p>fecha de publicacion: {{ fecha }} </p>
+    <p>codigo del episodio: {{ codigo }}  </p><br><br>
+{% endfor %}
+</ul>
+
+</body>
+</html>

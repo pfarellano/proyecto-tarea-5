@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lugar</title>
+    <link rel="shortcut icon" href="">
+</head>
+<body>
+
+
+<form id="searchform" action="{% url 'busqueda' %}" accept-charset="utf-8">
+      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Buscar">
+    <button class="searchbutton" type="submit" t><i class="fa fa-search" ></i>Ir</button>
+    </form>
+
+<h1>Lugar</h1>
+
+<p> Nombre:  {{nombre }} </p>
+<p> Tipo:  {{tipo}} </p>
+<p> Dimension:  {{dimension}} </p>
+
+
+<p> Residentes: </p>
+
+
+<ul>
+{% for nombre_residente,numero_residente in residentes.items %}
+
+    <a href={% url 'personaje' ur=numero_residente %}> {{nombre_residente}} </a><br>
+{% endfor %}
+</ul>
+
+
+
+</body>
+</html>

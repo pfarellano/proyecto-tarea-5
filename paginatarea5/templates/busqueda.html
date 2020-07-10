@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Busqueda</title>
+    <link rel="shortcut icon" href="">
+</head>
+<body>
+<h1>Busqueda</h1>
+
+
+<form id="searchform" action="{% url 'busqueda' %}" accept-charset="utf-8">
+      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Buscar">
+    <button class="searchbutton" type="submit" t><i class="fa fa-search" ></i>Ir</button>
+    </form>
+
+<p> Palabra:  {{ palabra }} </p>
+
+
+<p> Episodios: </p>
+
+<ul>
+{% for nombre_episodio,numero_episodio in episodios.items %}
+
+    <a href={% url 'episodio' id=numero_episodio %}> {{nombre_episodio}} </a><br>
+{% endfor %}
+</ul>
+
+
+<p> Personajes: </p>
+
+<ul>
+{% for nombre_personaje,numero_personaje in personajes.items %}
+
+    <a href={% url 'personaje' ur=numero_personaje %}> {{nombre_personaje}} </a><br>
+{% endfor %}
+</ul>
+
+
+
+
+
+<p> Lugares:  </p>
+
+<ul>
+{% for nombre_lugar,numero_lugar in lugares.items %}
+
+    <a href={% url 'lugar' id=numero_lugar %}> {{nombre_lugar}} </a><br>
+{% endfor %}
+</ul>
+
+
+</body>
+</html>

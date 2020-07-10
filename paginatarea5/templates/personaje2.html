@@ -1,0 +1,43 @@
+<form id="searchform" action="{% url 'busqueda' %}" accept-charset="utf-8">
+      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Buscar">
+    <button class="searchbutton" type="submit" t><i class="fa fa-search" ></i>Ir</button>
+    </form>
+
+
+<h1>Personaje</h1>
+
+<p> Nombre:  {{nombre }} </p>
+<p> Estado:  {{estado }} </p>
+<p> Especie:  {{especie}} </p>
+<p> Tipo:  {{tipo}} </p>
+<p> Genero:  {{genero}} </p>
+
+
+<ul>
+{% if origen != "1" %}
+<p> Origen: <a href={% url 'lugar' id=numero_origen %}> {{origen}} </a></p>
+{% endif %}
+</ul>
+
+<ul>
+{% if origen == "1" %}
+<p> Origen: desconocido</p>
+{% endif %}
+</ul>
+
+<p> Ultimo lugar visitado: <a href={% url 'lugar' id=numero_locacion %}> {{locacion}} </a><br></p>
+
+<img src={{imagen}}>
+
+<p> Episodios: </p>
+
+
+<ul>
+{% for nombre_episodio,numero_episodio in episodios.items %}
+
+    <a href={% url 'episodio' id=numero_episodio %}> {{nombre_episodio}} </a><br>
+{% endfor %}
+</ul>
+
+
+
