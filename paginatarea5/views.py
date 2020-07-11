@@ -103,7 +103,7 @@ def busqueda(request):
     query_template = Template("""query{episodes(filter: { name: "$palabra" }){results{id name}}}""")
     nueva_query = query_template.substitute(palabra=palabra)
     r = requests.post(url, json={'query': nueva_query})
-    if "data" in r:
+    if "data" in r.text:
         json_data = json.loads(r.text)
         resultados = json_data["data"]["episodes"]["results"]
         for resultado in resultados:
@@ -116,7 +116,7 @@ def busqueda(request):
     query_template = Template("""query{characters(filter: { name: "$palabra" }){results{id name}}}""")
     nueva_query = query_template.substitute(palabra=palabra)
     r = requests.post(url, json={'query': nueva_query})
-    if "data" in r:
+    if "data" in r.text:
         json_data = json.loads(r.text)
         resultados = json_data["data"]["characters"]["results"]
         for resultado in resultados:
@@ -130,7 +130,7 @@ def busqueda(request):
     query_template = Template("""query{locations(filter: { name: "$palabra" }){results{id name}}}""")
     nueva_query = query_template.substitute(palabra=palabra)
     r = requests.post(url, json={'query': nueva_query})
-    if "data" in r:
+    if "data" in r.text:
         json_data = json.loads(r.text)
         print(r.status_code)
         print(json_data)
