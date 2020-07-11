@@ -98,47 +98,69 @@ def busqueda(request):
     palabra = request.GET.get('q')
     url = "https://rickandmortyapi.com/graphql/"
 
+
     # episodios
     diccionario_episodios={}
-    query_template = Template("""query{episodes(filter: { name: "$palabra" }){results{id name}}}""")
-    nueva_query = query_template.substitute(palabra=palabra)
-    r = requests.post(url, json={'query': nueva_query})
-    if "data" in r.text:
-        json_data = json.loads(r.text)
-        resultados = json_data["data"]["episodes"]["results"]
-        for resultado in resultados:
-            nombre=resultado["name"]
-            id=resultado["id"]
-            diccionario_episodios[nombre] = id
+    page_episodes_query = "query{episodes{info{pages}}}"
+    respuesta_numero_paginas = requests.post(url, json={'query': page_episodes_query})
+    json_data = json.loads(respuesta_numero_paginas.text)
+    numero_paginas = int(json_data["data"]["episodes"]["info"]["pages"])
+    for pag in range(numero_paginas):
+        query_template = Template("""query{episodes(page: $pag, filter: { name: "$palabra" }){results{id name}}}""")
+        nueva_query = query_template.substitute(palabra=palabra, pag= str(pag+1))
+        r = requests.post(url, json={'query': nueva_query})
+        if "errors" in r.text:
+            continue
+        else:
+            json_data = json.loads(r.text)
+            resultados = json_data["data"]["episodes"]["results"]
+            for resultado in resultados:
+                nombre = resultado["name"]
+                id = resultado["id"]
+                diccionario_episodios[nombre] = id
+
+
 
     # personajes
     diccionario_personajes = {}
-    query_template = Template("""query{characters(filter: { name: "$palabra" }){results{id name}}}""")
-    nueva_query = query_template.substitute(palabra=palabra)
-    r = requests.post(url, json={'query': nueva_query})
-    if "data" in r.text:
-        json_data = json.loads(r.text)
-        resultados = json_data["data"]["characters"]["results"]
-        for resultado in resultados:
-            nombre=resultado["name"]
-            id=resultado["id"]
-            diccionario_personajes[nombre] = id
+    page_characters_query = "query{characters{info{pages}}}"
+    respuesta_numero_paginas = requests.post(url, json={'query': page_characters_query})
+    json_data = json.loads(respuesta_numero_paginas.text)
+    numero_paginas = int(json_data["data"]["characters"]["info"]["pages"])
+    for pag in range(numero_paginas):
+        query_template = Template("""query{characters(page: $pag, filter: { name: "$palabra" }){results{id name}}}""")
+        nueva_query = query_template.substitute(palabra=palabra, pag=str(pag + 1))
+        r = requests.post(url, json={'query': nueva_query})
+        if "errors" in r.text:
+            continue
+        else:
+            json_data = json.loads(r.text)
+            resultados = json_data["data"]["characters"]["results"]
+            for resultado in resultados:
+                nombre = resultado["name"]
+                id = resultado["id"]
+                diccionario_personajes[nombre] = id
 
 
     # lugares
     diccionario_lugares = {}
-    query_template = Template("""query{locations(filter: { name: "$palabra" }){results{id name}}}""")
-    nueva_query = query_template.substitute(palabra=palabra)
-    r = requests.post(url, json={'query': nueva_query})
-    if "data" in r.text:
-        json_data = json.loads(r.text)
-        print(r.status_code)
-        print(json_data)
-        resultados = json_data["data"]["locations"]["results"]
-        for resultado in resultados:
-            nombre = resultado["name"]
-            id = resultado["id"]
-            diccionario_lugares[nombre] = id
+    page_locations_query = "query{locations{info{pages}}}"
+    respuesta_numero_paginas = requests.post(url, json={'query': page_locations_query})
+    json_data = json.loads(respuesta_numero_paginas.text)
+    numero_paginas = int(json_data["data"]["locations"]["info"]["pages"])
+    for pag in range(numero_paginas):
+        query_template = Template("""query{locations(page: $pag, filter: { name: "$palabra" }){results{id name}}}""")
+        nueva_query = query_template.substitute(palabra=palabra, pag=str(pag + 1))
+        r = requests.post(url, json={'query': nueva_query})
+        if "errors" in r.text:
+            continue
+        else:
+            json_data = json.loads(r.text)
+            resultados = json_data["data"]["locations"]["results"]
+            for resultado in resultados:
+                nombre = resultado["name"]
+                id = resultado["id"]
+                diccionario_lugares[nombre] = id
 
     return render(request, "busqueda.html", {"palabra": palabra, "episodios": diccionario_episodios,
                                              "personajes": diccionario_personajes,
