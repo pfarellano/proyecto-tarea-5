@@ -30,7 +30,7 @@ def episodio(request, id):
     respuesta_episodio = requests.post(url, json={'query': episodes_query})
     json_data = json.loads(respuesta_episodio.text)
     resultado = json_data["data"]["episode"]
-    nombre = resultado["name"]
+    nombre_episodio = resultado["name"]
     fecha_al_aire = resultado["air_date"]
     episodio = resultado["episode"]
     lista_personajes=resultado["characters"]
@@ -40,7 +40,7 @@ def episodio(request, id):
         id = personaje["id"]
         diccionario_personajes[nombre]=id
 
-    return render(request, "episodio.html", {"nombre":nombre,"fecha_al_aire":fecha_al_aire, "episodio":episodio, "personajes": diccionario_personajes})
+    return render(request, "episodio.html", {"nombre":nombre_episodio,"fecha_al_aire":fecha_al_aire, "episodio":episodio, "personajes": diccionario_personajes})
 
 def personaje(request, ur):
     url = "https://rickandmortyapi.com/graphql/"
@@ -48,7 +48,7 @@ def personaje(request, ur):
     respuesta_personaje = requests.post(url, json={'query': characters_query})
     json_data = json.loads(respuesta_personaje.text)
     resultado = json_data["data"]["character"]
-    nombre = resultado["name"]
+    nombre_personaje = resultado["name"]
     estado = resultado["status"]
     especie = resultado["species"]
     tipo = resultado["type"]
@@ -66,7 +66,7 @@ def personaje(request, ur):
         diccionario_episodios[nombre]=id
 
     return render(request, "personaje.html",
-                  {"nombre": nombre, "estado": estado, "especie": especie, "tipo": tipo, "genero": genero,
+                  {"nombre": nombre_personaje, "estado": estado, "especie": especie, "tipo": tipo, "genero": genero,
                    "origen": nombre_origen, "numero_origen": id_origen, "numero_locacion": id_locacion,
                    "locacion": nombre_locacion, "imagen": imagen, "episodios": diccionario_episodios})
 
@@ -78,7 +78,7 @@ def lugar(request, id):
     respuesta_locacion = requests.post(url, json={'query': location_query})
     json_data = json.loads(respuesta_locacion.text)
     resultado = json_data["data"]["location"]
-    nombre = resultado["name"]
+    nombre_lugar = resultado["name"]
     tipo = resultado["type"]
     dimension = resultado["dimension"]
     residentes = resultado["residents"]
@@ -91,7 +91,7 @@ def lugar(request, id):
 
 
     return render(request, "lugar.html",
-                  {"nombre": nombre,  "tipo":tipo, "dimension":dimension, "residentes":diccionario_residentes})
+                  {"nombre": nombre_lugar,  "tipo":tipo, "dimension":dimension, "residentes":diccionario_residentes})
 
 
 def busqueda(request):
